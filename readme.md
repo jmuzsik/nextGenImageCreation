@@ -97,6 +97,8 @@ Converts a group of images to nextGen formats.
 
 - You now have `jp2` and `webp` images of your previous images. Also, if your image was a `png`, you now have a `jpg` and vice versa.
 
+<br />
+
 #### `MoveImagesToS3.sh`
 
 This moves your images to the an S3bucket of choice.
