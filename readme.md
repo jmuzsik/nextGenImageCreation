@@ -76,7 +76,7 @@ Converts a group of images to nextGen formats.
 
 <b>What to do before calling it</b>
 
-- Add all the images you want to be converted to the Images folder. That's your main folder for Images. After conversion, all the images will be there. The ones you put there, and the new ones as well. That's all that needs to be done.
+- Create an image folder in the root directory. Add all the images you want to be converted to the `Images` folder. That's your main folder for Images. After conversion, all the images will be there. The ones you put there, and the new ones as well. That's all that needs to be done.
   - I would also recommend to resize your prior to doing this as well. The less amount of bytes an image contains the faster it loads for the client, and they usually do not need to be large for high quality rendering.
 
 <b>How to call it</b>
