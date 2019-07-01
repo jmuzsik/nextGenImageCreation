@@ -10,9 +10,17 @@
    - It's basically the most popular image CLI library, it's [written mostly in C](https://github.com/ImageMagick/ImageMagick)
 
 2. This is optional. Hook up an AWS account to your CLI.
+
    - [How to sign up](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
    - [Install the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
    - [Configure the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration)
+
+3. Node if you use the utility script, `GetJSONData.sh`. Otherwise, you don't need it.
+
+4. Run this so you do not have to use `sudo`, or run sudo if you prefer.
+   - `cd Scripts && chmod +x * && cd .. && cd Javascript && chmod +x && cd ..`
+   - This allows access to the file system for these scripts, the scripts do not do anything outside of this home directory. All that happens is image conversion and pushing to S3 as is mentioned before.
+   - If you use sudo you'll just have to put your computer's password several times.
 
 ### How to start
 
@@ -31,7 +39,9 @@
 ### Something to know (common pitfalls)
 
 1. Only run the script from the root directory.
-2. Other stuff to think of in the future...
+2. Other stuff to think of in the future...?
+
+<br />
 
 #### CreateS3Bucket.sh
 
@@ -45,14 +55,14 @@ Creates an s3 bucket with public read access. Public read access means that anyo
 
 <b>How to call it</b>
 
-- `sudo bash ./createS3Bucket.sh`
+- `bash ./Scripts/createS3Bucket.sh`
 
 <b>Options</b>
 
 - `bucket="somebucketname"`
   - Required
   - [Requirements for naming an s3 bucket](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-s3-bucket-naming-requirements.html)
-- `region=us-west-1`
+- `region=some-region-1`
   - Not required
   - Default: `us-east-1`
 
@@ -60,9 +70,9 @@ Creates an s3 bucket with public read access. Public read access means that anyo
 
 1. `{"Location": "/somebucketname"}`
    - Which isn't important, it comes automatically from the AWS CLI.
-2. Then this: `upload: ./duck.png to s3://somebucketname/duck.png`
+2. Then this: `upload: Images/duckJPG.jpg to s3://somebucketname/duckJPG.jpg`
    - Which again is something from the AWS CLI.
-3. A string that says this: `Check if it works by clicking this url: https://somebucketname.s3.amazonaws.com/duck.png`. Which, when clicked, should show a little duck image, as that is the test image. You should take a peek in your AWS console as well.
+3. A string that says this: `Check if it works by clicking this url: https://somebucketname.s3.amazonaws.com/duckJPG.jpg`. Which, when copied into your browser, should show a duck image, as that is the test image. You should take a peek in your AWS console as well.
 
 <b>What to know</b>
 
@@ -76,12 +86,12 @@ Converts a group of images to nextGen formats.
 
 <b>What to do before calling it</b>
 
-- Create an image folder in the root directory. Add all the images you want to be converted to the `Images` folder. That's your main folder for Images. After conversion, all the images will be there. The ones you put there, and the new ones as well. That's all that needs to be done.
-  - I would also recommend to resize your prior to doing this as well. The less amount of bytes an image contains the faster it loads for the client, and they usually do not need to be large for high quality rendering.
+- Add all the images you want to convert to the `Images` folder in the root directory. That's your main folder for Images. After conversion, all `Webp` images will be in a `WebpFiles` folder, all `JPEG 2000 (JP2)` will be in a `JP2Files` folder, and placeholders will be in the `Placeholders` folder.
+  - You should also resize your images prior to doing this. The less amount of bytes an image contains the faster it loads for the client, and they usually do not need to be large for high quality rendering.
 
 <b>How to call it</b>
 
-- `sudo bash ./ConvertFiles.sh bucket="somebucketname"`
+- `bash ./Scripts/ConvertFiles.sh`
 
 <b>Options</b>
 
@@ -89,41 +99,60 @@ Converts a group of images to nextGen formats.
 
 <b>What you'll see in the console</b>
 
-- Some text that says `Newly converted files:`
-  - Then it `ls`'s the files.
-- That's it.
+- You shouldn't see anything atm.
 
 <b>What to know</b>
 
-- You now have `jp2` and `webp` images of your previous images. Also, if your image was a `png`, you now have a `jpg` and vice versa.
+- You now have `jp2`, `webp`, and placeholder images of your previous images.
 
 <br />
 
 #### `MoveImagesToS3.sh`
 
-This moves your images to the an S3bucket of choice.
+This moves your images to the S3 bucket of choice.
 
-How to call it
+<b>How to call it</b>
 
-- `sudo bash ./MoveImagesToS3.sh bucket="somebucketname"`
+- `bash ./Scripts/MoveImagesToS3.sh bucket="somebucketname"`
 
 <b>Options</b>
 
 - `bucket="somebucketname"`
   - Required
 
-<b>What you'll see in the console
+<b>What you'll see in the console</b>
 
 - A bunch of text like this (corresponding to how many files you have to write to s3): `upload: ./duck.jp2 to s3://somebucketname/jp2Images/duck.jp2`
   - This comes from the AWS cli.
-- A message of how to check the images. With your url, like this: `This is the url to see the images
+- A message of how to check the images. With your url, like this: `This is the url to see the images`
 - Then the url: `https://somebucketname.s3.amazonaws.com/some-extension`
 - And this: `some-extension is the path and filename, something like fallback/someImage.jpg.`
 - And lastly this: `ie. https://somebucketname.s3.amazonaws.com/fallback/someImage.jpg`
 
 <br />
 
-#### And that's the gist
+#### `GetJSONData.sh`
+
+This creates a file with the corresponding url's for your images for easy reference. No need to use the AWS console.
+
+<b>How to call it</b>
+
+- `bash ./Scripts/GetJSONData.sh bucket="somebucketname"`
+
+<b>Options</b>
+
+- `bucket="somebucketname"`
+  - Required
+
+<b>What you'll see in the console</b>
+
+- `The file has been saved! It is stored as imageUrls.json in the home directory.`
+
+<br />
+
+#### Additional info
+
+- Change the scripts to whatever you want! These options are not set in stone. Read more about the `AWS S3 CLI` or `Image Magick CLI` to see additional possibilities.
 
 <br />
 

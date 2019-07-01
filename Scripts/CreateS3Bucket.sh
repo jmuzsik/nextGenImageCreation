@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Check if any arguments were added, store in correct variable
 for ARGUMENT in "$@"; do
 
@@ -20,11 +22,7 @@ else
 fi
 
 # Send a test image
-aws s3 cp ./duck.png s3://$bucket/ --acl=public-read
+aws s3 cp ./Images/duckJPG.jpg s3://$bucket/ --acl=public-read
 
 # Final message
-echo "Check if it works by clicking this url: https://$bucket.s3.amazonaws.com/duck.png"
-
-exit
-
-# sudo bash ./CreateS3Bucket.sh bucket="jerryscoconutbucket"
+echo "Check if it works by clicking this url: https://$bucket.s3.amazonaws.com/duckJPG.jpg"
