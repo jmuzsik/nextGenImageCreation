@@ -121,6 +121,8 @@ How to call it
 
 <br />
 
+#### And that's the gist
+
 #### And now for something completely different
 
-![](http://gph.is/1hpo1J8)
+![](https://media.giphy.com/media/b9QBHfcNpvqDK/giphy.gif)
