@@ -18,7 +18,7 @@ cd ./Javascript
 touch data.json
 
 # Output data to file
-aws s3api list-objects --bucket $bucket >data.json
+aws s3api list-objects --bucket $bucket > data.json
 
 # Run Javascript on the JSON file
 node makeJSONReadable.js $bucket

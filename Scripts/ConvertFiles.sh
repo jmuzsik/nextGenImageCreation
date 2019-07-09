@@ -27,7 +27,7 @@ for file in *; do
     fi
 
     # Conversion to Next Gen formats, using solely imageMagick defaults
-    convert $file ./WebPFiles/$fileName.webp
+    convert $file -quality 100 ./WebPFiles/$fileName.webp
     convert $file ./JP2Files/$fileName.jp2
 
   fi

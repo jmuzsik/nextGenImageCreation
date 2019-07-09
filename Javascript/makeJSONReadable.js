@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const bucket = process.argv[0];
+const bucket = process.argv[2];
 
 fs.readFile('data.json', 'utf8', function(_, data) {
   const parsedData = JSON.parse(data).Contents;
