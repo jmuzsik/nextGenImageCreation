@@ -2,7 +2,8 @@
 
 # Create the folder to store Next Gen images
 mkdir ./Images/JP2Files
-mkdir ./Images/WebPFiles
+mkdir ./Images/WebpFiles
+mkdir ./Images/JXRFiles
 mkdir ./Images/Placeholders
 
 # Go into Image directory for easier understanding
@@ -27,8 +28,9 @@ for file in *; do
     fi
 
     # Conversion to Next Gen formats, using solely imageMagick defaults
-    convert $file -quality 100 ./WebPFiles/$fileName.webp
+    convert $file -quality 100 ./WebpFiles/$fileName.webp
     convert $file ./JP2Files/$fileName.jp2
+    convert $file ./JXRFiles/$fileName.jxr
 
   fi
 
