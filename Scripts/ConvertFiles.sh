@@ -15,6 +15,8 @@ for file in *; do
   if [[ -f $file ]]; then
 
     fileName=$(echo $file | cut -d'.' -f 1) # something.jpg -> something
+    fileSize=$(du --apparent-size --block-size=1  "$file" | awk '{ print $1}')
+    let webPTarget=(fileSize / 100 * 70) # Convert webp target to percentage of orginal file size
 
     # Create placeholder and move to Placeholder folder
     # These options are temporary and definitely have room for improvement
@@ -28,7 +30,7 @@ for file in *; do
     fi
 
     # Conversion to Next Gen formats, using solely imageMagick defaults
-    convert $file -quality 100 ./WebpFiles/$fileName.webp
+    convert $file -quality 50 -define webp:target-size=$webPTarget ./WebpFiles/$fileName.webp
     convert $file ./JP2Files/$fileName.jp2
     convert $file ./JXRFiles/$fileName.jxr
 
